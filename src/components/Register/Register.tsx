@@ -104,7 +104,7 @@ const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelected
   return (
     <div className="form-container">
       <ToastContainer />
-      {isLoading && <h3>Processing ...</h3>}
+      {isLoading && <h3 style={{color: 'red'}}>Processing ...</h3>}
       <h2>Register</h2>
       <form>
         <label>

@@ -90,7 +90,6 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
         navigate('/register');
       }
     } catch (error) {
-      setIsLoading(false);
       console.error(error);
     }
   };
@@ -102,7 +101,7 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
   return (
     <div>
       {
-        isLoading && <h3>Processing ...</h3>
+        isLoading && <h3 style={{color: 'red'}}>Processing ...</h3>
       }
       {existingUser ? (
         <div>

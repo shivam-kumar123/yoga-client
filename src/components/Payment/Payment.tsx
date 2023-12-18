@@ -106,7 +106,7 @@ const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
   return (
     <div className={styles.paymentContainer}>
       <ToastContainer />
-      {isLoading && <h3>Processing ...</h3>}
+      {isLoading && <h3 style={{color: 'red'}}>Processing ...</h3>}
       {showConfirmation === false && !paid && (
         <>
           <h2>Secure Payment</h2>
