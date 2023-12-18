@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './Payment.module.css';
 import ToastSuccess from '../Toaster/ToastSuccess';
+import ToastError from '../Toaster/ToastError';
 
 type TProps = {
   payEmail: string;
@@ -19,6 +20,7 @@ const Payment = ({ payEmail }: TProps) => {
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [paid, setPaid] = useState<boolean>(false);
+  const [paymentFailed, setPaymentFailed] = useState<boolean>(false);
 
   const [validationErrors, setValidationErrors] = useState({
     cardNumber: '',
@@ -41,25 +43,21 @@ const Payment = ({ payEmail }: TProps) => {
       cardHolder: '',
     };
 
-    // Validate card number
     if (formData.cardNumber.length !== 16 || !/^\d+$/.test(formData.cardNumber)) {
       newErrors.cardNumber = 'Card number must be a 16-digit number';
       isValid = false;
     }
 
-    // Validate expiry date
     if (!formData.expiryDate) {
       newErrors.expiryDate = 'Please enter the expiry date';
       isValid = false;
     }
 
-    // Validate CVV
     if (formData.cvc.length !== 3 || !/^\d+$/.test(formData.cvc)) {
       newErrors.cvc = 'CVV must be a 3-digit number';
       isValid = false;
     }
 
-    // Validate card holder
     if (!formData.cardHolder) {
       newErrors.cardHolder = 'Please enter the card holder name';
       isValid = false;
@@ -80,6 +78,7 @@ const Payment = ({ payEmail }: TProps) => {
       setShowConfirmation(false);
       setPaid(true);
     } catch (err) {
+      setPaymentFailed(true);
       console.log(err);
     }
   };
@@ -202,6 +201,16 @@ const Payment = ({ payEmail }: TProps) => {
           <div> Booking Completed Successfully  &#9989;</div>
           <ToastSuccess
             message="Payment successful"
+          />
+        </div>
+      }
+      {
+        paymentFailed && 
+        <div>
+          <div> Booking Failed &#10060;</div>
+          <ToastError
+            message="Payment Failed"
+            time={8000}
           />
         </div>
       }
