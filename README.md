@@ -59,8 +59,9 @@ Client is live on
 
 
 ## System Architecture
+![yoga-architecture](https://github.com/shivam-kumar123/yoga-client/assets/75497119/feeebd72-62e3-4f24-9909-7654c364dbf6)
 
-![System Overview]()
+
 
 ## Future Scope
 
