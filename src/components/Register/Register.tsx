@@ -32,6 +32,7 @@ const Register = ({setIsRegistered, setPayEmail}: TProps) => {
   const [ageIssue, setAgeIssue] = useState<boolean>(false);
   const [emptyField, setEmptyField] = useState<boolean>(false);
   const [serverError, setServerError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate(); 
 
@@ -70,6 +71,7 @@ const Register = ({setIsRegistered, setPayEmail}: TProps) => {
 
     try {
       setPayEmail(email);
+      setIsLoading(true);
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/submit`, formData);
 
       if (res.status === 200) {
@@ -87,6 +89,7 @@ const Register = ({setIsRegistered, setPayEmail}: TProps) => {
         }
 
       } else if (res.status === 202) {
+        setIsLoading(false);
         setServerError(true);
       }
     } catch (error) {
@@ -98,6 +101,7 @@ const Register = ({setIsRegistered, setPayEmail}: TProps) => {
   return (
     <div className="form-container">
       <ToastContainer />
+      {isLoading && <h3>Processing ...</h3>}
       <h2>Register</h2>
       <form>
         <label>
@@ -171,6 +175,7 @@ const Register = ({setIsRegistered, setPayEmail}: TProps) => {
             name="startDate"
             value={formData.startDate}
             onChange={handleChange}
+            min={new Date().toISOString().split('T')[0]} 
             required
           />
         </label>

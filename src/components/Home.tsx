@@ -23,13 +23,13 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
     selectedBatch: '',
     startDate: '',
   });
-
   const [existingUser, setExistingUser] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key in keyof TFormData]: string }>({
     email: '',
     selectedBatch: '',
     startDate: '',
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -73,6 +73,7 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
       setPayEmail(formData.email);
       setNewStartDate(formData.startDate);
       setNewSelectedBatch(formData.selectedBatch);
+      setIsLoading(true);
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/existing-user`, formData);
       if (res.status === 200) {
         // Old user redirect for payment
@@ -89,6 +90,7 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
         navigate('/register');
       }
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -99,6 +101,9 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
 
   return (
     <div>
+      {
+        isLoading && <h3>Processing ...</h3>
+      }
       {existingUser ? (
         <div>
           <div className="form-container">
@@ -146,6 +151,7 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
                   name="startDate"
                   value={formData.startDate}
                   onChange={handleChange}
+                  min={new Date().toISOString().split('T')[0]} 
                   required
                 />
                 <div style={{

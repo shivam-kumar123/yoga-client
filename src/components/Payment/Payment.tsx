@@ -23,13 +23,14 @@ const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [paid, setPaid] = useState<boolean>(false);
   const [paymentFailed, setPaymentFailed] = useState<boolean>(false);
-
   const [validationErrors, setValidationErrors] = useState({
     cardNumber: '',
     expiryDate: '',
     cvc: '',
     cardHolder: '',
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -78,11 +79,14 @@ const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
         startDate: newStartDate,
         selectedBatch: newSelectedBatch
       };
+      setIsLoading(true);
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/pay`, data);
       setShowConfirmation(false);
+      setIsLoading(false);
       setPaid(true);
     } catch (err) {
       setPaymentFailed(true);
+      setIsLoading(false);
       console.log(err);
     }
   };
@@ -101,6 +105,7 @@ const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
   return (
     <div className={styles.paymentContainer}>
       <ToastContainer />
+      {isLoading && <h3>Processing ...</h3>}
       {showConfirmation === false && !paid && (
         <>
           <h2>Secure Payment</h2>
@@ -204,7 +209,7 @@ const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
         <div>
           <div> Booking Completed Successfully  &#9989;</div>
           <ToastSuccess
-            message="Payment successful"
+            message="Payment successful, check E-Mail"
           />
         </div>
       }
