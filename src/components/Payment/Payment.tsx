@@ -8,9 +8,11 @@ import ToastError from '../Toaster/ToastError';
 
 type TProps = {
   payEmail: string;
+  newStartDate: string;
+  newSelectedBatch: string;
 };
 
-const Payment = ({ payEmail }: TProps) => {
+const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
   const [formData, setFormData] = useState({
     cardNumber: '',
     expiryDate: '',
@@ -73,6 +75,8 @@ const Payment = ({ payEmail }: TProps) => {
 
       const data = {
         email: payEmail,
+        startDate: newStartDate,
+        selectedBatch: newSelectedBatch
       };
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/pay`, data);
       setShowConfirmation(false);

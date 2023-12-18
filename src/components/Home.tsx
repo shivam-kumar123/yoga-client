@@ -5,6 +5,8 @@ import axios from 'axios';
 type TProps = {
   setIsRegistered: (isRegistered: boolean) => void;
   setPayEmail: (payEmail: string) => void;
+  setNewSelectedBatch: (selectedBatch: string) => void; 
+  setNewStartDate: (startDate: string) => void;
 };
 
 type TFormData = {
@@ -13,7 +15,7 @@ type TFormData = {
   startDate: string;
 };
 
-const Home = ({ setIsRegistered, setPayEmail }: TProps) => {
+const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDate }: TProps) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<TFormData>({
@@ -40,19 +42,16 @@ const Home = ({ setIsRegistered, setPayEmail }: TProps) => {
     let isValid = true;
     const newErrors: { [key in keyof TFormData]: string } = { email: '', selectedBatch: '', startDate: '' };
 
-    // Validate email
     if (!formData.email) {
       newErrors.email = 'Please enter your email';
       isValid = false;
     }
 
-    // Validate selectedBatch
     if (!formData.selectedBatch) {
       newErrors.selectedBatch = 'Please select a batch';
       isValid = false;
     }
 
-    // Validate startDate
     if (!formData.startDate) {
       newErrors.startDate = 'Please select a start date';
       isValid = false;
@@ -67,12 +66,13 @@ const Home = ({ setIsRegistered, setPayEmail }: TProps) => {
     e.preventDefault();
 
     if (!validateForm()) {
-      // If the form is not valid, do not proceed
       return;
     }
 
     try {
       setPayEmail(formData.email);
+      setNewStartDate(formData.startDate);
+      setNewSelectedBatch(formData.selectedBatch);
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/existing-user`, formData);
       if (res.status === 200) {
         // Old user redirect for payment

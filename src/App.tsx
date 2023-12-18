@@ -9,6 +9,8 @@ const App = () => {
 
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [payEmail, setPayEmail] = useState<string>('');
+  const [newSelectedBatch, setNewSelectedBatch] = useState<string>('');
+  const [newStartDate, setNewStartDate] = useState<string>('');
 
   return (
     <Router>
@@ -17,14 +19,23 @@ const App = () => {
         <Routes>
         <Route
             path="/"
-            element={<Home  setIsRegistered={setIsRegistered} setPayEmail={setPayEmail} />}
+            element={<Home  
+              setIsRegistered={setIsRegistered} 
+              setPayEmail={setPayEmail} 
+              setNewSelectedBatch={setNewSelectedBatch} 
+              setNewStartDate={setNewStartDate} 
+            />}
           />
         <Route
             path="/register"
             element={<Register setIsRegistered={setIsRegistered} setPayEmail={setPayEmail} />}
           />
           {isRegistered ? (
-            <Route path="/payment" element={<Payment payEmail={payEmail} />} />
+            <Route path="/payment" element={<Payment 
+              payEmail={payEmail} 
+              newStartDate={newStartDate}   
+              newSelectedBatch={newSelectedBatch} 
+            />} />
           ) : (
             <Route
               path="/payment"
