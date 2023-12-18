@@ -9,6 +9,8 @@ import './Register.module.css';
 type TProps = {
   setIsRegistered: (isRegistered: boolean) => void;
   setPayEmail: (payEmail: string) => void;
+  setNewStartDate: (newStartDate: string) => void;
+  setNewSelectedBatch: (newSelectedDate: string) => void;
 }
 
 type TFormData = {
@@ -20,7 +22,7 @@ type TFormData = {
   startDate: string;
 };
 
-const Register = ({setIsRegistered, setPayEmail}: TProps) => {
+const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelectedBatch}: TProps) => {
   const [formData, setFormData] = useState<TFormData>({
     name: '',
     age: null,
@@ -72,8 +74,9 @@ const Register = ({setIsRegistered, setPayEmail}: TProps) => {
     try {
       setPayEmail(email);
       setIsLoading(true);
+      setNewStartDate(startDate);
+      setNewSelectedBatch(selectedBatch);
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/submit`, formData);
-
       if (res.status === 200) {
         setFormData({
           name: '',

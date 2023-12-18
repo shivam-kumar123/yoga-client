@@ -81,6 +81,7 @@ const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
       };
       setIsLoading(true);
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/pay`, data);
+      setPaymentFailed(false);
       setShowConfirmation(false);
       setIsLoading(false);
       setPaid(true);

@@ -28,7 +28,12 @@ const App = () => {
           />
         <Route
             path="/register"
-            element={<Register setIsRegistered={setIsRegistered} setPayEmail={setPayEmail} />}
+            element={<Register 
+              setIsRegistered={setIsRegistered} 
+              setPayEmail={setPayEmail} 
+              setNewStartDate={setNewStartDate}   
+              setNewSelectedBatch={setNewSelectedBatch} 
+            />}
           />
           {isRegistered ? (
             <Route path="/payment" element={<Payment 
