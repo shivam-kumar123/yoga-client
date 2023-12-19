@@ -1,13 +1,17 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import ToastError from '../Toaster/ToastError';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Register.module.css';
+import ToastSuccess from '../Toaster/ToastSuccess';
 
 type TProps = {
   setIsRegistered: (isRegistered: boolean) => void;
+  payEmail: string;
+  newStartDate: string;
+  newSelectedBatch: string;
   setPayEmail: (payEmail: string) => void;
   setNewStartDate: (newStartDate: string) => void;
   setNewSelectedBatch: (newSelectedDate: string) => void;
@@ -22,7 +26,7 @@ type TFormData = {
   startDate: string;
 };
 
-const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelectedBatch}: TProps) => {
+const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelectedBatch, payEmail, newStartDate, newSelectedBatch}: TProps) => {
   const [formData, setFormData] = useState<TFormData>({
     name: '',
     age: null,
@@ -35,6 +39,7 @@ const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelected
   const [emptyField, setEmptyField] = useState<boolean>(false);
   const [serverError, setServerError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [redirected, setRedirected] = useState<boolean>(false);
 
   const navigate = useNavigate(); 
 
@@ -100,6 +105,17 @@ const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelected
     }
   };
 
+  useEffect(() => {
+    if (payEmail !== '') {
+      setRedirected(true);
+    }
+    setFormData({
+      ...formData,
+      email: payEmail,
+      startDate: newStartDate,
+      selectedBatch: newSelectedBatch
+    });
+  }, []);
 
   return (
     <div className="form-container">
@@ -207,6 +223,13 @@ const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelected
         <ToastError
           message="Email Already in use"
           time={8000}
+        />
+      }
+      {
+        redirected && 
+        <ToastSuccess 
+          message="New users needs to register"
+          position="top-right"
         />
       }
       </form>

@@ -87,6 +87,9 @@ const Home = ({ setIsRegistered, setPayEmail, setNewSelectedBatch, setNewStartDa
         navigate('/payment');
       } else if (res.status === 202) {
         // New user redirect to /register route
+        setPayEmail(formData.email);
+        setNewStartDate(formData.startDate);
+        setNewSelectedBatch(formData.selectedBatch);
         navigate('/register');
       }
     } catch (error) {

@@ -211,6 +211,7 @@ const Payment = ({ payEmail, newStartDate, newSelectedBatch }: TProps) => {
           <div> Booking Completed Successfully  &#9989;</div>
           <ToastSuccess
             message="Payment successful, check E-Mail"
+            position="bottom-center"
           />
         </div>
       }
