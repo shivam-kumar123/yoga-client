@@ -53,6 +53,9 @@ const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelected
     if (serverError) {
       setServerError(false);
     }
+    if (redirected) {
+      setRedirected(false);
+    }
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -63,6 +66,10 @@ const Register = ({setIsRegistered, setPayEmail, setNewStartDate, setNewSelected
     e.preventDefault();
     if (serverError) {
       setServerError(false);
+    }
+
+    if (redirected) {
+      setRedirected(false);
     }
 
     const { name, age, email, selectedBatch, gender, startDate } = formData;
